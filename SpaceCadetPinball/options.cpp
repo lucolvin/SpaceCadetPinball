@@ -353,7 +353,10 @@ const std::string& options::GetSetting(const std::string& key, const std::string
 
 void options::SetSetting(const std::string& key, const std::string& value)
 {
-	settings[key] = value;
+	auto& current = settings[key];
+	if (current == value)
+		return; // uninit() now runs every frame; only real changes should trigger an ini save
+	current = value;
 	if (ImGui::GetCurrentContext())
 		ImGui::MarkIniSettingsDirty();
 }

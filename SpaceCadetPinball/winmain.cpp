@@ -284,6 +284,8 @@ int winmain::WinMain(LPCSTR lpCmdLine)
 				ImGui::NewFrame();
 
 				RenderUi();
+				// Options are otherwise only written back on exit, which a browser tab never reaches
+				options::uninit();
 
 				SDL_RenderClear(renderer);
 				render::PresentVScreen();
