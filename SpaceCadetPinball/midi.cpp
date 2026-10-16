@@ -124,6 +124,12 @@ int midi::music_stop()
 
 #ifdef MUSIC_SDL
 	return Mix_HaltMusic();
+#elif defined(MUSIC_TSF)
+	// The audio callback stays hooked and plays whatever currentMessage points at, so stop the sequence there
+	currentMessage = nullptr;
+	if (tsfSynth)
+		tsf_note_off_all(tsfSynth);
+	return 0;
 #else
 	return 0;
 #endif
