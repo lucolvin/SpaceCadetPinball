@@ -200,6 +200,7 @@ void high_score::RenderHighScoreDialog()
 			{
 				default_name[31] = 0;
 				place_new_score_into(dlg_hst, dlg_score, default_name, dlg_position);
+				write(dlg_hst); // the table is otherwise only saved on exit, which a browser tab never reaches
 			}
 			ImGui::CloseCurrentPopup();
 		}
@@ -217,6 +218,7 @@ void high_score::RenderHighScoreDialog()
 			if (ImGui::Button("OK", ImVec2(120, 0)))
 			{
 				clear_table(dlg_hst);
+				write(dlg_hst);
 				ImGui::CloseCurrentPopup();
 			}
 			ImGui::SetItemDefaultFocus();

@@ -142,7 +142,7 @@ int winmain::WinMain(LPCSTR lpCmdLine)
 	ImGui_ImplSDL2_InitForOpenGL(window, nullptr);
 
 	auto prefPath = SDL_GetPrefPath(nullptr, "SpaceCadetPinball");
-	auto iniPath = std::string(prefPath) + "imgui_pb.ini";
+	static auto iniPath = std::string(prefPath) + "imgui_pb.ini"; // ImGui keeps the pointer for the whole run
 	io.IniFilename = iniPath.c_str();
 	SDL_free(prefPath);
 

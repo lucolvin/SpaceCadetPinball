@@ -472,9 +472,8 @@ void pb::keydown(int key)
 			ball->Acceleration.X = 0.0;
 			break;
 		case 'h':
-			char String1[200];
-			strncpy(String1, pinball::get_rc_string(26, 0), sizeof String1 - 1);
-			high_score::show_and_set_high_score_dialog(highscore_table, 1000000000, 1, String1);
+			// Upstream entered a fake 1,000,000,000 high score here; scores now reach a shared leaderboard
+			high_score::show_high_score_dialog(highscore_table);
 			break;
 		case 'm':
 			char buffer[20];
