@@ -1,0 +1,22 @@
+/* Scale the canvas to fill the browser window */
+html, body { margin: 0; padding: 0; width: 100%; height: 100%; background: #000; overflow: hidden; display: flex; justify-content: center; align-items: center; }
+canvas { width: auto !important; height: 95vh !important; object-fit: contain; image-rendering: pixelated; }
+
+/* Account panel and leaderboard (persist.js) */
+#pb-panel { position: fixed; top: 8px; right: 8px; z-index: 10; display: flex; gap: 6px; align-items: center;
+  font: 12px/1.2 Tahoma, Verdana, sans-serif; color: #ddd; }
+#pb-panel .who { color: #000; background: #c0c0c0; border: 2px inset #fff; padding: 2px 8px; }
+#pb-panel button, #pb-board button { font: inherit; font-size: 12px; color: #000; background: #c0c0c0; cursor: pointer;
+  border: 2px outset #fff; padding: 2px 8px; }
+#pb-panel button:active, #pb-board button:active { border-style: inset; }
+#pb-board { position: fixed; inset: 0; z-index: 20; display: flex; align-items: center; justify-content: center;
+  background: rgba(0, 0, 0, .55); font: 13px/1.4 Tahoma, Verdana, sans-serif; }
+#pb-board[hidden] { display: none; }
+#pb-board > div { background: #c0c0c0; color: #000; border: 2px outset #fff; padding: 0 12px 12px;
+  width: min(420px, calc(100vw - 32px)); max-height: 80vh; overflow: auto; text-align: right; }
+#pb-board h2 { margin: 0 -12px 8px; padding: 3px 8px; font-size: 13px; text-align: left; color: #fff;
+  background: linear-gradient(90deg, #000080, #1084d0); }
+#pb-board ol { text-align: left; margin: 0 0 10px; padding-left: 28px; }
+#pb-board li { display: flex; justify-content: space-between; gap: 12px; }
+#pb-board li span:first-child { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+#pb-board .pts { font-variant-numeric: tabular-nums; }

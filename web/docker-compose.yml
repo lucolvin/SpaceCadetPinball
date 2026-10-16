@@ -1,0 +1,20 @@
+services:
+  space-cadet:
+    build:
+      context: ..
+      dockerfile: web/Dockerfile
+    container_name: space-cadet
+    ports:
+      - "8073:80"
+    environment:
+      # Your PocketBase server; nginx forwards just the pinball endpoints to it
+      POCKETBASE_URL: http://pocketbase.example:8090
+      NGINX_ENVSUBST_FILTER: POCKETBASE_URL
+    restart: unless-stopped
+    networks:
+      - default
+      - cloudflare
+
+networks:
+  cloudflare:
+    external: true

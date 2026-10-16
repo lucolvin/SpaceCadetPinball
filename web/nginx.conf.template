@@ -1,0 +1,31 @@
+# Static game, plus a narrow proxy to PocketBase: only pinball sign-in and the pinball collections.
+# PocketBase's dashboard and every other collection stay unreachable from here.
+map $http_cf_connecting_ip $pinball_client_ip {
+    ""      $remote_addr;
+    default $http_cf_connecting_ip;
+}
+
+limit_req_zone $pinball_client_ip zone=pinball_api:10m rate=5r/s;
+
+server {
+    listen 80;
+    root /usr/share/nginx/html;
+
+    location / {
+        try_files $uri $uri/ =404;
+        add_header Cache-Control "no-cache";  # revalidate, so new builds show up (see the Dockerfile)
+    }
+
+    location ~ "^/api/collections/(pinball_players/(auth-methods|auth-with-oauth2|auth-refresh)|pinball_saves/records(/[a-z0-9]{15})?|pinball_scores/records)$" {
+        limit_req zone=pinball_api burst=20 nodelay;
+        client_max_body_size 96k;
+        proxy_pass ${POCKETBASE_URL};
+        proxy_set_header Host $proxy_host;
+        proxy_set_header X-Forwarded-For $pinball_client_ip;  # PocketBase rate-limits per player, not per proxy
+        proxy_set_header Cookie "";
+    }
+
+    location /api/ {
+        return 404;
+    }
+}
